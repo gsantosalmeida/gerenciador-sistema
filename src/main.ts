@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { open, save } from "@tauri-apps/plugin-dialog";
 
-type Settings = { downloadsPath: string; organize: boolean; tempMode: "none" | "age" | "all"; tempDays: number; logPath: string };
+type Settings = { downloadsPath: string; organize: boolean; tempMode: "none" | "age" | "all"; tempDays: number; cleanPrefetch: boolean; logPath: string };
 type Report = { lines: string[]; freedBytes: number; moved: number; deleted: number; skipped: number; errors: number };
 
 const $ = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
@@ -22,6 +22,7 @@ function settings(): Settings {
     organize: organize.checked,
     tempMode: tempAll.checked ? "all" : tempAge.checked ? "age" : "none",
     tempDays: Math.max(0, Number(tempDays.value) || 0),
+    cleanPrefetch: ($("#clean-prefetch") as HTMLInputElement).checked,
     logPath: logPath.value.trim(),
   };
 }
@@ -61,7 +62,7 @@ function syncMode() {
 
 async function run() {
   const config = settings();
-  if (!config.organize && config.tempMode === "none") {
+  if (!config.organize && config.tempMode === "none" && !config.cleanPrefetch) {
     appendLines(["Selecione ao menos uma ação para continuar."]);
     return;
   }
@@ -70,9 +71,11 @@ async function run() {
     return;
   }
   if (!simulate.checked) {
-    const warning = config.tempMode === "all"
-      ? "A limpeza total tentará remover todos os arquivos e subpastas dentro das pastas TEMP selecionadas. Itens em uso serão mantidos. Deseja continuar?"
-      : "Esta ação vai mover e/ou apagar arquivos no seu computador. Deseja continuar?";
+    const warning = config.cleanPrefetch
+      ? "A limpeza de Prefetch apagará arquivos usados pelo Windows para acelerar o início do sistema e de programas. As primeiras inicializações podem ficar mais lentas enquanto o Windows recria esses dados. Itens protegidos serão ignorados. Deseja continuar?"
+      : config.tempMode === "all"
+        ? "A limpeza total tentará remover todos os arquivos e subpastas dentro das pastas TEMP selecionadas. Itens em uso serão mantidos. Deseja continuar?"
+        : "Esta ação vai mover e/ou apagar arquivos no seu computador. Deseja continuar?";
     if (!window.confirm(warning)) return;
   }
   setBusy(true);

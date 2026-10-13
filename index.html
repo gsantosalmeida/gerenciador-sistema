@@ -46,7 +46,11 @@
             <span class="action-icon"><img src="/src/assets/limpar-tudo.png" alt="" /></span>
             <span class="action-copy"><strong>Limpar todo o conteúdo TEMP</strong><small>Inclui itens recentes e subpastas. Pastas TEMP permanecem.</small></span>
           </label>
-          <div class="warning-note"><span>!</span><span>Feche os programas antes. Arquivos em uso serão ignorados.</span></div>
+          <label class="action-card compact prefetch-option">
+            <input id="clean-prefetch" type="checkbox" />
+            <span class="action-copy"><strong>Limpar Prefetch (opcional)</strong><small>O Windows recria esses arquivos; programas podem abrir mais devagar no início.</small></span>
+          </label>
+          <div class="warning-note"><span>!</span><span>Prefetch não costuma precisar de limpeza. Itens protegidos pelo Windows serão ignorados.</span></div>
 
           <div class="run-controls">
             <button id="run-button" class="primary-button"><span aria-hidden="true">⌕</span> Analisar</button>

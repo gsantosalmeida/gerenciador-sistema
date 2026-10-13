@@ -12,6 +12,7 @@ Um aplicativo desktop simples para organizar a pasta Downloads e limpar arquivos
 - **Arquiva instaladores:** arquivos como `.exe`, `.msi`, `.msix` e `.appx` vão para `Instaladores arquivados`. O aplicativo não apaga instaladores automaticamente.
 - **Limpa temporários por idade:** remove arquivos mais antigos que o limite escolhido nas pastas TEMP do Windows. Mantém os arquivos recentes e as pastas.
 - **Limpa todo o conteúdo TEMP:** tenta remover arquivos e subpastas, inclusive itens recentes. Mantém as pastas TEMP em si; arquivos em uso ou sem acesso são ignorados.
+- **Prefetch (opcional):** tenta remover arquivos `.pf` e `.db` diretamente da pasta Prefetch do Windows. Essa opção fica desativada por padrão; o Windows recria esses dados, e programas podem iniciar mais devagar até isso acontecer. Subpastas são preservadas.
 - **Simula antes de executar:** a simulação vem ativada por padrão e não altera arquivos. Ao desativá-la, o aplicativo pede confirmação antes de executar as ações.
 - **Mostra o resultado:** registra itens movidos, apagados, ignorados e erros, além de estimar o espaço liberado. É possível salvar o registro em um arquivo.
 

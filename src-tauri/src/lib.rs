@@ -15,6 +15,7 @@ struct Settings {
     organize: bool,
     temp_mode: String,
     temp_days: u64,
+    clean_prefetch: bool,
     log_path: String,
 }
 
@@ -268,7 +269,7 @@ fn dirs_home() -> Option<PathBuf> {
 
 #[tauri::command]
 fn run_cleaner(settings: Settings, apply: bool) -> Result<Report, String> {
-    if !settings.organize && settings.temp_mode == "none" {
+    if !settings.organize && settings.temp_mode == "none" && !settings.clean_prefetch {
         return Err("Selecione ao menos uma ação.".into());
     }
     let downloads = PathBuf::from(&settings.downloads_path);
@@ -435,6 +436,73 @@ fn run_cleaner(settings: Settings, apply: bool) -> Result<Report, String> {
                     lines.push(format!("[IGNORADA: sem acesso] {}: {e}", dir.display()));
                 }
             }
+        }
+    }
+    if settings.clean_prefetch {
+        if let Some(windows_root) = env::var_os("SystemRoot") {
+            let dir = PathBuf::from(windows_root).join("Prefetch");
+            lines.push(format!("[PREFETCH] Pasta: {}", dir.display()));
+            match fs::read_dir(&dir) {
+                Ok(entries) => {
+                    for item in entries {
+                        match item {
+                            Ok(entry) => {
+                                let path = entry.path();
+                                match fs::symlink_metadata(&path) {
+                                    Ok(meta) if meta.is_dir() && !meta.file_type().is_symlink() => {
+                                        totals.skipped += 1;
+                                        lines.push(format!(
+                                            "[PREFETCH: subpasta preservada] {}",
+                                            path.display()
+                                        ));
+                                    }
+                                    Ok(_) => {
+                                        let ext =
+                                            path.extension().unwrap_or_default().to_string_lossy();
+                                        if !matches!(ext.to_ascii_lowercase().as_str(), "pf" | "db")
+                                        {
+                                            continue;
+                                        }
+                                        inspect_temp(
+                                            &path,
+                                            0,
+                                            true,
+                                            apply,
+                                            &mut lines,
+                                            &mut totals,
+                                        );
+                                    }
+                                    Err(e) => push_error(
+                                        &mut lines,
+                                        &mut totals,
+                                        "ao inspecionar Prefetch",
+                                        &path,
+                                        &e,
+                                    ),
+                                }
+                            }
+                            Err(e) => {
+                                totals.errors += 1;
+                                lines.push(format!("[ERRO ao listar Prefetch] {e}"));
+                            }
+                        }
+                    }
+                }
+                Err(e) if e.kind() == std::io::ErrorKind::NotFound => {
+                    totals.skipped += 1;
+                    lines.push(format!("[PREFETCH: pasta ausente] {}", dir.display()));
+                }
+                Err(e) => {
+                    totals.skipped += 1;
+                    lines.push(format!(
+                        "[PREFETCH: sem acesso; arquivos protegidos serão ignorados] {}: {e}",
+                        dir.display()
+                    ));
+                }
+            }
+        } else {
+            totals.skipped += 1;
+            lines.push("[PREFETCH: não foi possível localizar a pasta do Windows]".into());
         }
     }
     lines.push(format!("[RESUMO] Movidos: {}; arquivos apagados: {}; pastas removidas: {}; ignorados: {}; erros: {}; espaço liberado: {}", totals.moved, totals.deleted, totals.removed_dirs, totals.skipped, totals.errors, format_bytes(totals.freed)));
