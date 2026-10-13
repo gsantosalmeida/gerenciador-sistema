@@ -32,7 +32,7 @@ O instalador será criado para Windows. Quem usar a versão empacotada não prec
 2. Clone este repositório e entre na pasta do projeto:
 
    ```powershell
-   git clone https://github.com/SEU-USUARIO/gerenciador-sistema.git
+   git clone https://github.com/gsantosalmeida/gerenciador-sistema.git
    cd gerenciador-sistema
    ```
 
