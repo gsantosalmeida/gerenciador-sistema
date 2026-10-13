@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#202631" />
+    <title>Gerenciador de Sistema</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <div class="brand-mark" aria-hidden="true">✦</div>
+        <div class="brand-copy">
+          <p class="eyebrow">CUIDADO SIMPLES COM O SEU PC</p>
+          <h1>Gerenciador de Sistema</h1>
+        </div>
+        <span class="version">WINDOWS · V1.0</span>
+      </header>
+
+      <section class="workspace" aria-label="Painel de limpeza">
+        <section class="panel actions-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">ESCOLHA O QUE FAZER</p><h2>Ações</h2></div>
+            <span class="step-badge">01</span>
+          </div>
+
+          <label class="action-card selected">
+            <input id="organize" type="checkbox" checked />
+            <span class="action-icon download-icon" aria-hidden="true">↓</span>
+            <span class="action-copy"><strong>Organizar Downloads</strong><small>Separa arquivos por tipo em pastas fáceis de encontrar.</small></span>
+          </label>
+          <div class="included-note"><span>✓</span> Instaladores vão para uma pasta própria e nunca são apagados.</div>
+
+          <div class="divider"></div>
+          <div class="section-label">ARQUIVOS TEMPORÁRIOS</div>
+          <label class="action-card compact">
+            <input id="temp-age" name="temp-mode" type="radio" value="age" checked />
+            <span class="action-icon clock-icon" aria-hidden="true">◷</span>
+            <span class="action-copy"><strong>Limpar por idade</strong><small>Apaga arquivos antigos e mantém os mais recentes.</small></span>
+          </label>
+          <div class="age-control"><label for="temp-days">Apagar itens com mais de</label><div class="number-wrap"><input id="temp-days" type="number" min="0" max="3650" value="1" /><span>dias</span></div></div>
+          <label class="action-card compact all-temp-card">
+            <input id="temp-all" name="temp-mode" type="radio" value="all" />
+            <span class="action-icon trash-icon" aria-hidden="true">⌫</span>
+            <span class="action-copy"><strong>Limpar todo o conteúdo TEMP</strong><small>Inclui itens recentes e subpastas. Pastas TEMP permanecem.</small></span>
+          </label>
+          <div class="warning-note"><span>!</span><span>Feche os programas antes. Arquivos em uso serão ignorados.</span></div>
+
+          <div class="run-controls">
+            <button id="run-button" class="primary-button"><span aria-hidden="true">⌕</span> Analisar</button>
+            <label class="simulate-control"><input id="simulate" type="checkbox" checked /><span class="switch"></span><span>Simular primeiro</span></label>
+          </div>
+          <p id="mode-hint" class="mode-hint">A simulação mostra o que seria feito sem alterar arquivos.</p>
+        </section>
+
+        <section class="panel settings-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">PERSONALIZE</p><h2>Pastas e opções</h2></div>
+            <span class="step-badge">02</span>
+          </div>
+          <div class="field-group">
+            <label for="downloads-path">Pasta Downloads</label>
+            <div class="path-row"><input id="downloads-path" type="text" spellcheck="false" /><button id="reset-path" class="quiet-button" type="button" title="Voltar para a pasta padrão">Padrão</button></div>
+            <span class="field-hint">A organização considera os arquivos nesta pasta.</span>
+          </div>
+          <div class="field-group log-field">
+            <label for="log-path">Salvar registro em</label>
+            <input id="log-path" type="text" spellcheck="false" placeholder="Opcional — deixe vazio para não salvar" />
+            <span class="field-hint">O registro ajuda a conferir o resultado depois.</span>
+          </div>
+          <div class="privacy-card"><span class="privacy-icon">◎</span><div><strong>Você está no controle</strong><p>Nada é apagado durante a análise. A limpeza completa só começa depois da sua confirmação.</p></div></div>
+          <div class="storage-card"><span class="storage-icon">⌂</span><div><strong>Espaço recuperado</strong><p id="freed-space">Aguardando análise</p></div></div>
+          <div class="run-state"><span class="status-dot"></span><span id="status-text">Pronto para analisar</span></div>
+        </section>
+
+        <section class="panel log-panel">
+          <div class="panel-heading log-heading">
+            <div><p class="eyebrow">ACOMPANHE A OPERAÇÃO</p><h2>Atividade</h2></div>
+            <span id="log-count" class="log-count">PRONTO</span>
+          </div>
+          <div id="log-output" class="log-output" role="log" aria-live="polite">
+            <div class="empty-state"><div class="empty-icon">✧</div><strong>Tudo pronto por aqui</strong><p>Escolha as ações e clique em <b>Analisar</b> para ver uma prévia.</p></div>
+          </div>
+          <div class="log-footer"><span class="live-indicator"></span><span id="log-footer-text">Aguardando análise</span><button id="clear-log" type="button">Limpar</button></div>
+        </section>
+      </section>
+      <footer class="app-footer"><span>Feito para deixar seu computador mais organizado.</span><span>Seus arquivos continuam sob seu controle.</span></footer>
+    </main>
+  </body>
+</html>
