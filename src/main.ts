@@ -1,4 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
+import { open, save } from "@tauri-apps/plugin-dialog";
 
 type Settings = { downloadsPath: string; organize: boolean; tempMode: "none" | "age" | "all"; tempDays: number; logPath: string };
 type Report = { lines: string[]; freedBytes: number; moved: number; deleted: number; skipped: number; errors: number };
@@ -108,7 +109,19 @@ window.addEventListener("DOMContentLoaded", async () => {
   simulate.addEventListener("change", syncMode);
   tempAge.addEventListener("change", syncMode);
   tempAll.addEventListener("change", syncMode);
-  $("#reset-path").addEventListener("click", () => { downloadsPath.value = defaultDownloads; });
+  $("#choose-downloads").addEventListener("click", async () => {
+    const selected = await open({ directory: true, multiple: false, defaultPath: downloadsPath.value || defaultDownloads, title: "Escolha a pasta Downloads" });
+    if (typeof selected === "string") downloadsPath.value = selected;
+  });
+  $("#choose-log").addEventListener("click", async () => {
+    const selected = await save({
+      title: "Escolha onde salvar o registro",
+      defaultPath: logPath.value || "registro-limpeza.log",
+      filters: [{ name: "Registro de limpeza", extensions: ["log", "txt"] }],
+    });
+    if (selected) logPath.value = selected;
+  });
+  $("#clear-log-path").addEventListener("click", () => { logPath.value = ""; });
   $("#clear-log").addEventListener("click", () => {
     logOutput.innerHTML = '<div class="empty-state"><div class="empty-icon">✧</div><strong>Registro limpo</strong><p>Faça uma análise para ver a atividade aqui.</p></div>';
   });

@@ -11,7 +11,7 @@
   <body>
     <main class="app-shell">
       <header class="app-header">
-        <div class="brand-mark" aria-hidden="true">✦</div>
+        <div class="brand-mark"><img src="/src/assets/app-icon.png" alt="" /></div>
         <div class="brand-copy">
           <p class="eyebrow">CUIDADO SIMPLES COM O SEU PC</p>
           <h1>Gerenciador de Sistema</h1>
@@ -28,8 +28,8 @@
 
           <label class="action-card selected">
             <input id="organize" type="checkbox" checked />
-            <span class="action-icon download-icon" aria-hidden="true">↓</span>
-            <span class="action-copy"><strong>Organizar Downloads</strong><small>Separa arquivos por tipo em pastas fáceis de encontrar.</small></span>
+            <span class="action-icon"><img src="/src/assets/organizar.png" alt="" /></span>
+            <span class="action-copy"><strong>Organizar</strong><small>Separa arquivos da pasta Downloads por tipo.</small></span>
           </label>
           <div class="included-note"><span>✓</span> Instaladores vão para uma pasta própria e nunca são apagados.</div>
 
@@ -37,13 +37,13 @@
           <div class="section-label">ARQUIVOS TEMPORÁRIOS</div>
           <label class="action-card compact">
             <input id="temp-age" name="temp-mode" type="radio" value="age" checked />
-            <span class="action-icon clock-icon" aria-hidden="true">◷</span>
+            <span class="action-icon"><img src="/src/assets/limpar-idade.png" alt="" /></span>
             <span class="action-copy"><strong>Limpar por idade</strong><small>Apaga arquivos antigos e mantém os mais recentes.</small></span>
           </label>
           <div class="age-control"><label for="temp-days">Apagar itens com mais de</label><div class="number-wrap"><input id="temp-days" type="number" min="0" max="3650" value="1" /><span>dias</span></div></div>
           <label class="action-card compact all-temp-card">
             <input id="temp-all" name="temp-mode" type="radio" value="all" />
-            <span class="action-icon trash-icon" aria-hidden="true">⌫</span>
+            <span class="action-icon"><img src="/src/assets/limpar-tudo.png" alt="" /></span>
             <span class="action-copy"><strong>Limpar todo o conteúdo TEMP</strong><small>Inclui itens recentes e subpastas. Pastas TEMP permanecem.</small></span>
           </label>
           <div class="warning-note"><span>!</span><span>Feche os programas antes. Arquivos em uso serão ignorados.</span></div>
@@ -62,12 +62,12 @@
           </div>
           <div class="field-group">
             <label for="downloads-path">Pasta Downloads</label>
-            <div class="path-row"><input id="downloads-path" type="text" spellcheck="false" /><button id="reset-path" class="quiet-button" type="button" title="Voltar para a pasta padrão">Padrão</button></div>
+            <div class="path-row"><input id="downloads-path" type="text" spellcheck="false" readonly /><button id="choose-downloads" class="quiet-button" type="button">Escolher…</button></div>
             <span class="field-hint">A organização considera os arquivos nesta pasta.</span>
           </div>
           <div class="field-group log-field">
             <label for="log-path">Salvar registro em</label>
-            <input id="log-path" type="text" spellcheck="false" placeholder="Opcional — deixe vazio para não salvar" />
+            <div class="path-row"><input id="log-path" type="text" spellcheck="false" placeholder="Opcional — não salvar registro" readonly /><button id="choose-log" class="quiet-button" type="button">Escolher…</button><button id="clear-log-path" class="quiet-button clear-path-button" type="button" title="Remover caminho do registro">×</button></div>
             <span class="field-hint">O registro ajuda a conferir o resultado depois.</span>
           </div>
           <div class="privacy-card"><span class="privacy-icon">◎</span><div><strong>Você está no controle</strong><p>Nada é apagado durante a análise. A limpeza completa só começa depois da sua confirmação.</p></div></div>

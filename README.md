@@ -7,6 +7,8 @@ Um aplicativo desktop simples para organizar a pasta Downloads e limpar arquivos
 ## O que ele faz
 
 - **Organiza Downloads:** move os arquivos que estão diretamente na pasta escolhida para subpastas por tipo, como PDFs, imagens, vídeos e arquivos compactados. A organização não depende da idade do arquivo.
+- **Escolhe pastas em diálogo nativo:** use o seletor de pastas do Windows para definir Downloads e o seletor de arquivo para escolher onde salvar o registro.
+- **Ícones personalizados:** o aplicativo e as ações usam os ícones do projeto, gerados nos formatos necessários para o instalador Windows.
 - **Arquiva instaladores:** arquivos como `.exe`, `.msi`, `.msix` e `.appx` vão para `Instaladores arquivados`. O aplicativo não apaga instaladores automaticamente.
 - **Limpa temporários por idade:** remove arquivos mais antigos que o limite escolhido nas pastas TEMP do Windows. Mantém os arquivos recentes e as pastas.
 - **Limpa todo o conteúdo TEMP:** tenta remover arquivos e subpastas, inclusive itens recentes. Mantém as pastas TEMP em si; arquivos em uso ou sem acesso são ignorados.

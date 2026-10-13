@@ -13,6 +13,8 @@ dist-ssr
 *.local
 src-tauri/target
 src-tauri/gen/schemas
+src-tauri/icons/android
+src-tauri/icons/ios
 *.log
 .env
 .env.*
